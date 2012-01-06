@@ -1,0 +1,22 @@
+
+Source: capi-system-haptic
+Section: libs
+Priority: extra
+Maintainer: pius lee <pius.lee@samsung.com>
+Build-Depends: debhelper (>= 5), dlog-dev, libdevman-dev, libdevman-haptic-dev, libsvi-dev, libglib2.0-dev, capi-base-common-dev 
+
+Package: capi-system-haptic
+Architecture: any
+Depends: ${shilbs:Depends}, ${misc:Depends}
+Description: A Haptic library in Tizen Native API
+
+Package: capi-system-haptic-dev
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, capi-system-haptic (= ${Source-Version}), libdevman-dev, libdevman-haptic-dev, libsvi-dev, capi-base-common-dev, dlog-dev
+Description: A Haptic library in Tizen Native API (DEV)
+
+Package: capi-system-haptic-dbg
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, capi-system-haptic (= ${Source-Version})
+Description: A Haptic library in Tizen Native API (DBG)
+

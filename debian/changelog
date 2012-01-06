@@ -1,0 +1,21 @@
+capi-system-haptic (0.1.0-9) unstable; urgency=low
+
+  * patch for lower framework functions
+  * Git: api/haptic
+  * Tag: capi-system-haptic_0.1.0-9
+
+ -- Pius Lee <pius.lee@samsung.com>  Wed, 04 Jan 2012 16:41:58 +0900
+
+capi-system-haptic (0.1.0-8) unstable; urgency=low
+
+  * update version
+  * Git: api/haptic
+  * Tag: capi-system-haptic_0.1.0-8
+
+ -- Pius Lee <pius.lee@samsung.com>  Thu, 15 Dec 2011 13:51:19 +0900
+
+capi-system-haptic (0.0.1-1) unstable; urgency=low
+
+  * Initial release.
+
+ -- Pius Lee <pius.lee@samsung.com>  Wed, 07 Dec 2011 12:47:27 +0900
