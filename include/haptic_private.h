@@ -26,7 +26,6 @@ extern "C" {
 
 void _haptic_init();
 void _haptic_deinit();
-int _haptic_play_monotone(int dev, int duration, haptic_level_e level);
 	
 #ifdef __cplusplus
 }

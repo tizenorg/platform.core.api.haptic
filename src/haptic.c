@@ -137,7 +137,7 @@ int haptic_initialize()
         id = device_haptic_open(_DEV[i], 0);
         if(id < 0) {
             for (j=i; i>=0; i--){
-                device_haptic_close(_DEV[i]);
+                device_haptic_close(haptic_ids[i]);
             }
             RETURN_ERR(HAPTIC_ERROR_OPERATION_FAILED);
         }
@@ -162,7 +162,7 @@ int haptic_deinitialize()
         RETURN_ERR(HAPTIC_ERROR_NOT_INITIALIZED);
 
     for(i=0; i<=max_device; i++){
-        err = device_haptic_close(_DEV[i]);
+        err = device_haptic_close(haptic_ids[i]);
     }
     initialize = 0;
 
@@ -190,7 +190,7 @@ int haptic_get_file_duration(int device_index, const char *file_name , int* dura
     if(device_index < 0 || device_index > max_device)
         RETURN_ERR(HAPTIC_ERROR_INVALID_PARAMETER);
     
-    device_index = ((device_index < 3) ? _DEV[device_index] : DEV_IDX_ALL); // xxx
+    device_index = ((device_index < 3) ? device_index : 0); // xxx
 
     if(!invalid_ivt(file_name))
         RETURN_ERR(HAPTIC_ERROR_NOT_SUPPORTED_FORMAT);
@@ -214,7 +214,7 @@ int haptic_vibrate_file(int device_index, const char *file_name , int count , ha
     if(device_index < 0 || device_index > max_device)
         RETURN_ERR(HAPTIC_ERROR_INVALID_PARAMETER);
 
-    device_index = ((device_index < 3) ? _DEV[device_index] : DEV_IDX_ALL); // xxx
+    device_index = ((device_index < 3) ? device_index : 0); // xxx
 
     if(!initialize)
         RETURN_ERR(HAPTIC_ERROR_NOT_INITIALIZED);
@@ -253,7 +253,7 @@ int haptic_vibrate_monotone(int device_index , int duration)
     if(device_index < 0 || device_index > max_device)
         RETURN_ERR(HAPTIC_ERROR_INVALID_PARAMETER);
 
-    device_index = ((device_index < 3) ? _DEV[device_index] : DEV_IDX_ALL); // xxx
+    device_index = ((device_index < 3) ? device_index : 0); // xxx
 
     if(!initialize)
         RETURN_ERR(HAPTIC_ERROR_NOT_INITIALIZED);
@@ -277,7 +277,7 @@ int haptic_stop_device(int device_index)
     if(device_index < 0 || device_index > max_device)
         RETURN_ERR(HAPTIC_ERROR_INVALID_PARAMETER);
 
-    device_index = ((device_index < 3) ? _DEV[device_index] : DEV_IDX_ALL); // xxx
+    device_index = ((device_index < 3) ? device_index : 0); // xxx
 
     if(!initialize)
         RETURN_ERR(HAPTIC_ERROR_NOT_INITIALIZED);
@@ -302,6 +302,31 @@ static void _free_pattern_from_table(int index)
     free(p->iters);
     free(p);
     g_array_index(pattern_table, struct _vibe_pattern *, index) = NULL;
+}
+
+static int _haptic_play_monotone(int device_index, long duration, haptic_level_e level)
+{
+	int ret;
+
+    if(device_index < 0 || device_index > max_device)
+        RETURN_ERR(HAPTIC_ERROR_INVALID_PARAMETER);
+
+    device_index = ((device_index < 3) ? device_index : 0); // xxx
+
+    if(!initialize)
+        RETURN_ERR(HAPTIC_ERROR_NOT_INITIALIZED);
+
+
+	ret = device_haptic_play_monotone_with_feedback_level(haptic_ids[device_index], duration, _LEVEL[level]);
+
+	if(ret < 0){
+        if(ret == -2)
+            RETURN_ERR(HAPTIC_ERROR_OPERATION_FAILED);
+        else
+            RETURN_ERR(HAPTIC_ERROR_INVALID_PARAMETER);
+    }
+
+	return HAPTIC_ERROR_NONE;
 }
 
 static gboolean _haptic_play_iter(gpointer data)
@@ -331,8 +356,7 @@ static gboolean _haptic_play_iter(gpointer data)
         level = HAPTIC_LEVEL_5;
 
     if(level != HAPTIC_LEVEL_0 || time != 0){
-//        err = _haptic_play_monotone(device, time, level);
-        err = haptic_vibrate_monotone(device, time);
+        err = _haptic_play_monotone(device, time, level);
         if(err<0){
             pattern->error = err;
             return false;

@@ -61,14 +61,6 @@ enum {
 
 static int immersion;
 
-static int IMM_LEVEL[] = {
-    0, 0, 2000, 4000, 6000, 8000, 10000
-};
-
-static int ETC_LEVEL[] = {
-    0,0, 55, 60, 65, 70, 80
-};
-
 void _haptic_init()
 {
     immersion = access(IMMERSION_DRV_NODE, F_OK) == 0;
@@ -78,70 +70,3 @@ void _haptic_deinit()
 {
 }
 
-int _haptic_play_monotone(int dev, int duration, haptic_level_e level)
-{
-    int status;
-    int input = 0;
-    unsigned int cmd;
-
-    if(duration < 1 || duration > INPUT_PARM_MAX)
-        return HAPTIC_ERROR_INVALID_PARAMETER;
-
-    dev = DEV_IDX_ALL; // xxx
-
-    if(dev != DEV_IDX_ALL && dev != DEV_IDX_0 && dev != DEV_IDX_1)
-        return HAPTIC_ERROR_INVALID_PARAMETER;
-
-    if(level == HAPTIC_LEVEL_0)
-        return HAPTIC_ERROR_NONE;
-
-    if(level < HAPTIC_LEVEL_1 || level > HAPTIC_LEVEL_5)
-        return HAPTIC_ERROR_INVALID_PARAMETER;
-
-    input = immersion ? IMM_LEVEL[level] : ETC_LEVEL[level];
-    if(input == 0)
-        return HAPTIC_ERROR_NONE;
-
-    if (immersion) {
-        cmd = COMP_CMD(dev, input);
-        status = device_set_property(DEVTYPE_EFFECT_HAPTIC,
-                CMD_PROPERTY_SET_STRENGTH, (int)cmd);
-//        printf("capi [%d - %d - %d] [%d %d]\n", DEVTYPE_EFFECT_HAPTIC, CMD_PROPERTY_SET_STRENGTH, cmd, dev, input);
-        if (status < 0) {
-            return HAPTIC_ERROR_OPERATION_FAILED;
-        }
-
-        cmd = COMP_CMD(dev, 0x05);
-        status =
-            device_set_property(DEVTYPE_EFFECT_HAPTIC,
-                    CMD_PROPERTY_SET_PRIORITY, (int)cmd);
-        if (status < 0) {
-            return HAPTIC_ERROR_OPERATION_FAILED;
-        }
-    }
-
-    if (immersion) {
-        cmd = COMP_CMD(dev, duration);
-        status =
-            device_set_property(DEVTYPE_EFFECT_HAPTIC,
-                    CMD_SET_NORMAL_PLAY, (int)cmd);
-        if (status < 0) {
-            return HAPTIC_ERROR_OPERATION_FAILED;
-        }
-    } else {
-        status =
-            device_set_property(DEVTYPE_HAPTIC, HAPTIC_PROP_LEVEL,
-                    input);
-        if (status < 0) {
-            return HAPTIC_ERROR_OPERATION_FAILED;
-        }
-
-        status =
-            device_set_property(DEVTYPE_HAPTIC, HAPTIC_PROP_ONESHOT,
-                    duration);
-        if (status < 0) {
-            return HAPTIC_ERROR_OPERATION_FAILED;
-        }
-    }
-    return HAPTIC_ERROR_NONE;
-}
