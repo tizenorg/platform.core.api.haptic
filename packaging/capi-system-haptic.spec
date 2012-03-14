@@ -1,12 +1,13 @@
 Name:       capi-system-haptic
 Summary:    A Haptic library in Tizen Native API
-Version:    0.0.1
+Version:    0.1.0
 Release:    1
 Group:      TO_BE/FILLED_IN
-License:    TO BE FILLED IN
+License:    Apache-2.0
 Source0:    %{name}-%{version}.tar.gz
 BuildRequires:  cmake
 BuildRequires:  pkgconfig(devman)
+BuildRequires:  pkgconfig(dlog)
 BuildRequires:  pkgconfig(devman_haptic)
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(capi-base-common)
