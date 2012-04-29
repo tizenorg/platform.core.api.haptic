@@ -7,7 +7,7 @@ Build-Depends: debhelper (>= 5), dlog-dev, libdevman-dev, libdevman-haptic-dev, 
 
 Package: capi-system-haptic
 Architecture: any
-Depends: ${shilbs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: A Haptic library in Tizen Native API
 
 Package: capi-system-haptic-dev

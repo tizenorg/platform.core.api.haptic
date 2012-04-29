@@ -11,6 +11,7 @@ SET(INC_DIR include)
 INCLUDE_DIRECTORIES(${INC_DIR})
 
 SET(dependents "devman glib-2.0 dlog")
+SET(pc_dependents "capi-base-common")
 
 INCLUDE(FindPkgConfig)
 pkg_check_modules(${fw_name} REQUIRED ${dependents})
@@ -35,6 +36,13 @@ ADD_LIBRARY(${fw_name} SHARED ${SOURCES})
 
 TARGET_LINK_LIBRARIES(${fw_name} ${${fw_name}_LDFLAGS})
 
+SET_TARGET_PROPERTIES(${fw_name}
+    PROPERTIES
+    VERSION ${FULLVER}
+    SOVERSION ${MAJORVER}
+    CLEAN_DIRECT_OUTPUT 1
+)
+
 INSTALL(TARGETS ${fw_name} DESTINATION lib)
 INSTALL(
         DIRECTORY ${INC_DIR}/ DESTINATION include/system
@@ -44,9 +52,8 @@ INSTALL(
         )
 
 SET(PC_NAME ${fw_name})
-SET(PC_REQUIRED ${dependents})
+SET(PC_REQUIRED ${pc_dependents})
 SET(PC_LDFLAGS -l${fw_name})
-SET(PC_CFLAGS -I\${includedir}/system)
 
 CONFIGURE_FILE(
     ${fw_name}.pc.in
