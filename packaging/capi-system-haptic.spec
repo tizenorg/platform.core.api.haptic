@@ -5,6 +5,7 @@ Release:    11
 Group:      TO_BE/FILLED_IN
 License:    Apache-2.0
 Source0:    %{name}-%{version}.tar.gz
+Source1001: packaging/capi-system-haptic.manifest 
 BuildRequires:  cmake
 BuildRequires:  pkgconfig(devman)
 BuildRequires:  pkgconfig(devman_haptic)
@@ -33,6 +34,7 @@ Requires: %{name} = %{version}-%{release}
 
 
 %build
+cp %{SOURCE1001} .
 MAJORVER=`echo %{version} | awk 'BEGIN {FS="."}{print $1}'`
 cmake . -DCMAKE_INSTALL_PREFIX=/usr -DFULLVER=%{version} -DMAJORVER=${MAJORVER}
 
@@ -49,9 +51,11 @@ rm -rf %{buildroot}
 
 
 %files
+%manifest capi-system-haptic.manifest
 %{_libdir}/libcapi-system-haptic.so.*
 
 %files devel
+%manifest capi-system-haptic.manifest
 %{_includedir}/system/*.h
 %{_libdir}/pkgconfig/*.pc
 %{_libdir}/libcapi-system-haptic.so
