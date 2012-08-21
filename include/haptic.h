@@ -45,13 +45,13 @@ extern "C" {
  */
 typedef enum
 {
-	HAPTIC_LEVEL_AUTO,      /**< vibration level from settings */
-	HAPTIC_LEVEL_0,         /**< vibration level 0 (silence) */
-	HAPTIC_LEVEL_1,         /**< vibration level 1 (the lowest) */
-	HAPTIC_LEVEL_2,         /**< vibration level 2 (low)*/
-	HAPTIC_LEVEL_3,         /**< vibration level 3 (middle) */
-	HAPTIC_LEVEL_4,         /**< vibration level 4 (high) */
-	HAPTIC_LEVEL_5,         /**< vibration level 5 (the highest) */
+	HAPTIC_LEVEL_AUTO = -1,     /**< vibration level from settings */
+	HAPTIC_LEVEL_0 = 0,         /**< vibration level 0 (silence) */
+	HAPTIC_LEVEL_1 = 20,        /**< vibration level 1 (the lowest) */
+	HAPTIC_LEVEL_2 = 40,        /**< vibration level 2 (low)*/
+	HAPTIC_LEVEL_3 = 60,        /**< vibration level 3 (middle) */
+	HAPTIC_LEVEL_4 = 80,        /**< vibration level 4 (high) */
+	HAPTIC_LEVEL_5 = 100,       /**< vibration level 5 (the highest) */
 } haptic_level_e;
 
 /**
@@ -77,7 +77,6 @@ typedef enum
 typedef struct
 {
     int vibrator_index;           /**< Index of the vibrator */
-    haptic_level_e level;	/**< Intensity of the vibration in a iteration */
     int time;              /**< Duration of the vibration in a iteration */
 } haptic_vibration_iter_s;
 
@@ -123,67 +122,20 @@ int haptic_initialize(void);
 int haptic_deinitialize(void);
 
 /**
- * @brief Plays a stored rhythmic haptic vibration pattern from a file.
- * 
- * @remarks Both the actual behavior of the vibration pattern and the intensity depend on devices.
- *
- * @param[in] vibrator_index	The index of the vibrator.\n
- * 							The index of the first vibrator is 1.\n
- *							0 is reserved for every vibrators at once.
- * @param[in] file_path	The path of a rhythmic vibration pattern file.
- *						Only .ivt (Immersion VibeTonz) file is supported.
- * @param[in] count	The number of iterations to be vibrated. Must be less than the maximum\n
- *					Iteration range allowed for the device. (currently it's 255)
- * @param[in] level	The feedback intensity level (it is dependent on target's hardware).\n
- *					This level is already predefined by enumeration type value from\n
- *					#HAPTIC_LEVEL_1 to #HAPTIC_LEVEL_5.\n
- *					If you want to use the value selected by the user in the Setting application menu,\n
- *					#HAPTIC_LEVEL_AUTO has to be set. It is required that application\n
- *					must have a main loop to use the #HAPTIC_LEVEL_AUTO.
- *
- * @return 0 on success, otherwise a negative error value.  
- * @retval #HAPTIC_ERROR_NONE                 Success
- * @retval #HAPTIC_ERROR_INVALID_PARAMETER    Invalid parameter
- * @retval #HAPTIC_ERROR_OPERATION_FAILED     Operation failed
- * @retval #HAPTIC_ERROR_NO_SUCH_FILE		  No such file
- * @retval #HAPTIC_ERROR_NOT_SUPPORTED_FORMAT Not supported file format
- *
- * @see haptic_stop_device()
- * @see haptic_get_count()
- */
-int haptic_vibrate_file(int vibrator_index, const char *file_path, int count, haptic_level_e level);
-
-/**
- * @brief Gets the duration of a rhythmic vibration pattern saved in a given file.
- *
- * @param[in] vibrator_index	The index of the vibrator.\n
- * 							The index of the first vibrator is 1.\n
- *							0 is reserved for every vibrators at once.
- * @param[in] file_path	The path of a rhythmic vibration pattern file.
- *						Only .ivt (Immersion VibeTonz) file is supported.
- * @param[out] duration_ms	The duration in milliseconds.
- *
- * @return 0 on success, otherwise a negative error value.  
- * @retval #HAPTIC_ERROR_NONE                  Successful
- * @retval #HAPTIC_ERROR_INVALID_PARAMETER     Invalid parameter
- * @retval #HAPTIC_ERROR_OPERATION_FAILED      Operation failed
- * @retval #HAPTIC_ERROR_NO_SUCH_FILE		   No such file
- * @retval #HAPTIC_ERROR_NOT_SUPPORTED_FORMAT  Not supported file format
- *
- * @see haptic_get_count()
- */
-int haptic_get_file_duration(int vibrator_index, const char *file_path, int *duration_ms);
-
-/**
  * @brief Vibrates during the specified time with a constant intensity.
  * @details
  * This function can be used to start monotonous vibration for specified time.\n
  * Default value of intensity is used.\n
  *
+ * @remark
+ * level is intensity variation of vibration. it has a value from 0 to 100.\n
+ * level -1 is reserved for auto changing to saved variable in the settings.
+ *
  * @param[in] vibrator_index	The index of the vibrator.\n
  * 							The index of the first vibrator is 1.\n
  *							0 is reserved for every vibrators at once.
  * @param[in] duration_ms	The play duration in milliseconds
+ * @param[in] level         The amount of the intensity variation
  *
  * @return 0 on success, otherwise a negative error value.  
  * @retval #HAPTIC_ERROR_NONE               Successful
@@ -195,7 +147,7 @@ int haptic_get_file_duration(int vibrator_index, const char *file_path, int *dur
  * @see haptic_vibrate_file()
  * @see haptic_get_count()
  */
-int haptic_vibrate_monotone(int vibrator_index, int duration_ms);
+int haptic_vibrate_monotone(int vibrator_index, int duration_ms, int level);
 
 /**
  * @brief Stops the current vibration which is being played.
@@ -222,32 +174,22 @@ int haptic_stop_device(int vibrator_index);
 /**
  * @brief Starts playing the pattern of continuous vibration data.
  * @details
- * Each vibration data has index of vibrator, intensity level and duration time. \n
+ * Each vibration data has index of vibrator and duration time. \n
  * Vibration data plays continuously in order of specific array. \n
  * This function returns the ID of playing session if it succeeds.
  * This ID can be used to stop playing iterations.
  *
- * When played intensity in each vibration data can be changed with level_change parameter. \n
- * level_change parameter is quantity of intensity variation, it can be minus or plus integer number. \n
- * But if vibration intensity level is under #HAPTIC_LEVEL_0, it does not change. \n
- * And level can't be under #HAPTIC_LEVEL_0 or over #HAPTIC_LEVEL_5.
- *
- * For example, \n
- * Level(#HAPTIC_LEVEL_1) + level_change(2)   = #HAPTIC_LEVEL_3 \n
- * Level(#HAPTIC_LEVEL_2) + level_change(-2)  = #HAPTIC_LEVEL_0 \n
- * Level(#HAPTIC_LEVEL_5) + level_change(-10) = #HAPTIC_LEVEL_0 \n
- * Level(#HAPTIC_LEVEL_0) + level_change(3)   = #HAPTIC_LEVEL_0 (It does not change) \n
- * Level(#HAPTIC_LEVEL_2) + level_change(-3)  = #HAPTIC_LEVEL_0 (It can't be under zero) \n
- * Level(#HAPTIC_LEVEL_3) + level_change(10)  = #HAPTIC_LEVEL_5 (It can't be over five) \n
- * 
+ * @remark
+ * level is intensity variation of vibration. it has a value from 0 to 100.\n
+ * level -1 is reserved for auto changing to saved variable in the settings.
  *
  * @param[in]   pattern         The array of the vibration data
  * @param[in]   pattern_size    The number of the vibration data
  * @param[in]   count           The number of the Iteration that include playing every vibrations
- * @param[in]   level_change    The amount of the intensity variation in each vibrations
+ * @param[in]   level           The amount of the intensity variation in every vibrations
  * @param[out]  id              The ID of the vibration pattern
  *
- * @return 0 on success, otherwise a negative error value.  
+ * @return 0 on success, otherwise a negative error value.
  * @retval #HAPTIC_ERROR_NONE               Successful
  * @retval #HAPTIC_ERROR_INVALID_PARAMETER  Invalid parameter
  * @retval #HAPTIC_ERROR_OPERATION_FAILED   Operation failed
@@ -255,7 +197,7 @@ int haptic_stop_device(int vibrator_index);
  *
  * @see haptic_stop_pattern()
  */
-int haptic_play_pattern(haptic_vibration_iter_s* pattern, int pattern_size, int count, int level_change, int* id);
+int haptic_play_pattern(haptic_vibration_iter_s* pattern, int pattern_size, int count, int level, int* id);
 
 /**
  * @brief Stops playing the pattern which is being played.

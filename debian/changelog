@@ -1,37 +1,152 @@
+capi-system-haptic (0.1.0-12) unstable; urgency=low
+
+  * fix race condition segfault error in pattern play functions
+  * Git: slp/api/haptic
+  * Tag: capi-system-haptic_0.1.0-12
+
+ -- pius lee <pius.lee@samsung.com>  Fri, 01 Jun 2012 16:56:46 +0900
+
 capi-system-haptic (0.1.0-11) unstable; urgency=low
 
-  * now, version will be attached to shared object extension.
-  * Git: api/haptic
+  * so version added
+  * Git: slp/api/haptic
   * Tag: capi-system-haptic_0.1.0-11
 
- -- Pius Lee <pius.lee@samsung.com>  Thu, 16 Feb 2012 17:23:52 +0900
+ -- pius lee <pius.lee@samsung.com>  Thu, 16 Feb 2012 16:53:33 +0900
 
 capi-system-haptic (0.1.0-10) unstable; urgency=low
 
   * additional fix for lower framework 
-  * Git: api/haptic
+  * Git: slp/api/haptic
   * Tag: capi-system-haptic_0.1.0-10
 
  -- DongGi Jang <dg0402.jang@samsung.com>  Thu, 02 Feb 2012 16:41:18 +0900
 
 capi-system-haptic (0.1.0-9) unstable; urgency=low
 
-  * patch for lower framework functions
-  * Git: api/haptic
+  * fix for lower framework
+  * Git: slp/api/haptic
   * Tag: capi-system-haptic_0.1.0-9
 
- -- Pius Lee <pius.lee@samsung.com>  Wed, 04 Jan 2012 16:41:58 +0900
+ -- pius lee <pius.lee@samsung.com>  Wed, 04 Jan 2012 16:45:31 +0900
 
 capi-system-haptic (0.1.0-8) unstable; urgency=low
 
-  * update version
-  * Git: api/haptic
+  * fix error check for malloc and time type in iter structure, fix document
+  * Git: slp/api/haptic
   * Tag: capi-system-haptic_0.1.0-8
 
- -- Pius Lee <pius.lee@samsung.com>  Thu, 15 Dec 2011 13:51:19 +0900
+ -- pius lee <pius.lee@samsung.com>  Wed, 07 Dec 2011 10:28:49 +0900
+
+capi-system-haptic (0.1.0-7) unstable; urgency=low
+
+  * fix error_ok to error_none
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.1.0-7
+
+ -- pius lee <pius.lee@samsung.com>  Mon, 05 Dec 2011 16:03:56 +0900
+
+capi-system-haptic (0.1.0-6) unstable; urgency=low
+
+  * add error logging
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.1.0-6
+
+ -- pius lee <pius.lee@samsung.com>  Fri, 02 Dec 2011 14:50:06 +0900
+
+capi-system-haptic (0.1.0-5) unstable; urgency=low
+
+  * replace project name from SLP to Tizen
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.1.0-5
+
+ -- pius lee <pius.lee@samsung.com>  Wed, 23 Nov 2011 13:15:03 +0900
+
+capi-system-haptic (0.1.0-4) unstable; urgency=low
+
+  * fix segfault when call stop_pattern before play_pattern.
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.1.0-4
+
+ -- pius lee <pius.lee@samsung.com>  Fri, 11 Nov 2011 19:34:43 +0900
+
+capi-system-haptic (0.1.0-3) unstable; urgency=low
+
+  * fix vibration function's ID bugs
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.1.0-3
+
+ -- pius lee <pius.lee@samsung.com>  Mon, 24 Oct 2011 17:26:13 +0900
+
+capi-system-haptic (0.1.0-2) unstable; urgency=low
+
+  * Fix TC, fix vibration function's bugs
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.1.0-2
+
+ -- pius lee <pius.lee@samsung.com>  Tue, 27 Sep 2011 22:30:08 +0900
+
+capi-system-haptic (0.1.0-1) unstable; urgency=low
+
+  * alpha version update
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.1.0-1
+
+ -- pius lee <pius.lee@samsung.com>  Tue, 27 Sep 2011 21:55:56 +0900
+
+capi-system-haptic (0.0.1-6) unstable; urgency=low
+
+  * Now count function return value through output parameter.
+  * Now play pattern function return id through output parameter.
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.0.1-6
+
+ -- pius lee <pius.lee@samsung.com>  Tue, 27 Sep 2011 16:14:04 +0900
+
+capi-system-haptic (0.0.1-5) unstable; urgency=low
+
+  * Fix version number
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.0.1-5
+
+ -- pius lee <pius.lee@samsung.com>  Mon, 26 Sep 2011 21:54:30 +0900
+
+capi-system-haptic (0.0.1-4-docfix) unstable; urgency=low
+
+  * Fix documents
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.0.1-4-docfix
+
+ -- pius lee <pius.lee@samsung.com>  Mon, 26 Sep 2011 21:09:04 +0900
+
+capi-system-haptic (0.0.1-4) unstable; urgency=low
+
+  * renew functions to new way. (merged from experimental branch)
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.0.1-4
+
+ -- pius lee <pius.lee@samsung.com>  Mon, 26 Sep 2011 15:01:40 +0900
+
+capi-system-haptic (0.0.1-3) unstable; urgency=low
+
+  * change unknown error to more meaningful
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.0.1-3
+
+ -- pius lee <pius.lee@samsung.com>  Mon, 29 Aug 2011 18:20:36 +0900
+
+capi-system-haptic (0.0.1-2) unstable; urgency=low
+
+  * fix doxygen comment in header about haptic_open
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.0.1-2
+
+ -- pius lee <pius.lee@samsung.com>  Thu, 11 Aug 2011 19:15:12 +0900
 
 capi-system-haptic (0.0.1-1) unstable; urgency=low
 
-  * Initial release.
+  * Initial upload
+  * Git: slp-source.sec.samsung.net:slp/api/haptic
+  * Tag: capi-system-haptic_0.0.1-1
 
- -- Pius Lee <pius.lee@samsung.com>  Wed, 07 Dec 2011 12:47:27 +0900
+ -- pius lee <pius.lee@samsung.com>  Fri, 05 Aug 2011 13:02:31 +0900
