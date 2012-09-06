@@ -89,7 +89,7 @@ static void utc_system_haptic_vibrate_monotone_p(void)
 {
     int error = HAPTIC_ERROR_NONE;
 
-    error = haptic_vibrate_monotone(0, 1000);
+    error = haptic_vibrate_monotone(0, 1000, 50);
     if(error != HAPTIC_ERROR_NONE)
         dts_fail(API_NAME_PLAY_MONOTONE);
 
@@ -103,7 +103,7 @@ static void utc_system_haptic_vibrate_monotone_n_1(void)
 {
     int error = HAPTIC_ERROR_NONE;
 
-    error = haptic_vibrate_monotone(-1, 1000);
+    error = haptic_vibrate_monotone(-1, 1000, 50);
     if(error == HAPTIC_ERROR_NONE)
         dts_fail(API_NAME_PLAY_MONOTONE);
 
@@ -117,7 +117,7 @@ static void utc_system_haptic_vibrate_monotone_n_2(void)
 {
     int error = HAPTIC_ERROR_NONE;
 
-    error = haptic_vibrate_monotone(0, -1);
+    error = haptic_vibrate_monotone(0, -1, 50);
     if(error == HAPTIC_ERROR_NONE)
         dts_fail(API_NAME_PLAY_MONOTONE);
 
@@ -132,7 +132,7 @@ static void utc_system_haptic_stop_device_p(void)
 {
     int error = HAPTIC_ERROR_NONE;
 
-    error = haptic_vibrate_monotone(0, 1000);
+    error = haptic_vibrate_monotone(0, 1000, 50);
     if(error != HAPTIC_ERROR_NONE)
         dts_fail(API_NAME_STOP_PLAY);
 

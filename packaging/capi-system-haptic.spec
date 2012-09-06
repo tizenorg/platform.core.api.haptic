@@ -2,7 +2,7 @@
 Name:       capi-system-haptic
 Summary:    A Haptic library in Tizen C API
 Version:    0.1.0
-Release:    17
+Release:    19
 Group:      TO_BE/FILLED_IN
 License:    TO BE FILLED IN
 Source0:    %{name}-%{version}.tar.gz
@@ -58,6 +58,10 @@ rm -rf %{buildroot}
 %{_libdir}/libcapi-system-haptic.so
 
 %changelog
+* Thu Sep 06 2012 - Jiyoung Yun <jy910.yun@samsung.com>
+- fix TC error
+- Tag : capi-system-haptic_0.1.0-19
+
 * Thu Aug 16 2012 - Jiyoung Yun <jy910.yun@samsung.com>
 - modify the function parameter to control detail feedback level
 - Tag : capi-system-haptic_0.1.0-17
