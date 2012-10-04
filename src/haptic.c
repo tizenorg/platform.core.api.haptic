@@ -173,7 +173,6 @@ int haptic_vibrate_monotone(int device_index, int duration_ms, int level)
 	if(level == HAPTIC_LEVEL_0)
 		return HAPTIC_ERROR_NONE;
 
-	level = (level == HAPTIC_LEVEL_AUTO) ? 0 : level;
 	ret = device_haptic_play_monotone_with_detail_feedback_level(haptic_ids[device_index], duration_ms, level);
 
 	if(ret < 0){
