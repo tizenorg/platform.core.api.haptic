@@ -114,8 +114,8 @@ int haptic_initialize()
     for(i=0; i<=max_device; i++){
         id = device_haptic_open(_DEV[i], 0);
         if(id < 0) {
-            for (j=i; i>=0; i--){
-                device_haptic_close(haptic_ids[i]);
+            for (j=i; j>=0; j--){
+                device_haptic_close(haptic_ids[j]);
             }
             RETURN_ERR(HAPTIC_ERROR_OPERATION_FAILED);
         }
@@ -134,13 +134,15 @@ int haptic_initialize()
 
 int haptic_deinitialize()
 {
-    int err, i;
+//    int err, i;
+    int i;
 
     if(!initialize)
         RETURN_ERR(HAPTIC_ERROR_NOT_INITIALIZED);
 
     for(i=0; i<=max_device; i++){
-        err = device_haptic_close(haptic_ids[i]);
+//        err = device_haptic_close(haptic_ids[i]);
+        device_haptic_close(haptic_ids[i]);
     }
     initialize = 0;
     if(haptic_ids != NULL)
