@@ -47,11 +47,13 @@ make %{?jobs:-j%jobs}
 
 
 %files
+%manifest %{name}.manifest
 %license LICENSE
 %manifest capi-system-haptic.manifest
 %{_libdir}/libcapi-system-haptic.so.*
 
 %files devel
+%manifest %{name}.manifest
 %{_includedir}/system/*.h
 %{_libdir}/pkgconfig/*.pc
 %{_libdir}/libcapi-system-haptic.so
