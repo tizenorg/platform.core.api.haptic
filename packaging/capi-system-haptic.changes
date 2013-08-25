@@ -1,3 +1,6 @@
+* Sun Aug 25 2013 Chengwei Yang <chengwei.yang@intel.com>
+- Remove debian packaging stuff
+
 * Fri May 31 2013 Anas Nashif <anas.nashif@intel.com> accepted/tizen/20130520.100658@dd9c528
 - Remove placeholders and cleanup spec
 
